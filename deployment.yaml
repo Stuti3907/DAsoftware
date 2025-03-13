@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: software-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: software
+  template:
+    metadata:
+      labels:
+        app: software
+    spec:
+      containers:
+        - name: software
+          image: stutidahal/software:v2
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: data-storage
+              mountPath: "/data"
+      volumes:
+        - name: data-storage
+          persistentVolumeClaim:
+            claimName: software-pvc
+
